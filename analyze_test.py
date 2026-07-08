@@ -19,5 +19,10 @@ def test_cases(testcase):
 
 
 def test_new_cases():
-    # your new tests here
-    pass
+    # net support is antisymmetric
+    assert net_support_for_candidate1("נפתלי בנט", "גדעון סער") == 17
+    assert net_support_for_candidate1("גדעון סער", "נפתלי בנט") == -17
+    # a candidate compared with himself gives 0
+    assert net_support_for_candidate1("יאיר לפיד", "יאיר לפיד") == 0
+    # Bennett beats all other candidates pairwise
+    assert condorcet_winner() == "נפתלי בנט"
