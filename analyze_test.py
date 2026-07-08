@@ -1,3 +1,4 @@
+import re
 import pytest
 from analyze import condorcet_winner, net_support_for_candidate1
 from testcases import parse_testcases
@@ -15,7 +16,11 @@ def run_testcase(party:str):
 @pytest.mark.parametrize("testcase", testcases, ids=[testcase["name"] for testcase in testcases])
 def test_cases(testcase):
     actual_output = run_testcase(testcase["input"])
-    assert actual_output == testcase["output"], f"Expected {testcase['output']}, got {actual_output}"
+    expected = testcase["output"]
+    if expected.startswith("/"):  # expected output given as a regex, e.g. /.*/i
+        assert re.fullmatch(expected.strip("/i"), actual_output, re.IGNORECASE)
+    else:
+        assert actual_output == expected, f"Expected {expected}, got {actual_output}"
 
 
 def test_new_cases():
